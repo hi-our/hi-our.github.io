@@ -1,8 +1,11 @@
 ---
 id: doc1
 title: Latin-ish
-sidebar_label: Example Page
+sidebar_label: 示例222
 ---
+
+wfjwefnwegnwn4hn4
+
 
 Check the [documentation](https://docusaurus.io) for how to use Docusaurus.
 
