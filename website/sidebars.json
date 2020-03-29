@@ -20,7 +20,13 @@
     ],
     "腾讯云开发实战": [
       "tencent-cloud/picture-speed-up-1-second",
-      "tencent-cloud/tencent-minapp-to-web"
+      "tencent-cloud/tencent-minapp-to-web",
+      "tencent-cloud/avatar-poster-share",
+      "tencent-cloud/login-minapp-web",
+      "tencent-cloud/self-page-list"
+    ],
+    "Taro实战": [
+      "taro-next/taro-next-vs-core"
     ]
 
     
