@@ -8,9 +8,22 @@
       "config/taro-cloud-function",
       "config/tencent-cloud-ai-face"
     ],
-    "Docusaurus": ["doc1"],
-    "First Category": ["doc2"],
-    "Second Category": ["doc3"]
+    "小程序知识": [
+      "minapp-knowledge/canvas-image-cropper-share",
+      "minapp-knowledge/canvas-minapp-web",
+      "minapp-knowledge/minapp-to-dark-mode"
+    ],
+    "原生小程序实战": [
+      "minapp-native/face-recognition",
+      "minapp-native/sticker",
+      "minapp-native/wear-a-mask"
+    ],
+    "腾讯云开发实战": [
+      "tencent-cloud/picture-speed-up-1-second",
+      "tencent-cloud/tencent-minapp-to-web"
+    ]
+
+    
   },
   "docs-other": {
     "First Category": ["doc4", "doc5"]

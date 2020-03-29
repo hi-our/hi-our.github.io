@@ -1,5 +1,6 @@
-
-# canvas在小程序与web端的不同
+---
+title: canvas在小程序与web端的不同
+---
 
 * canvas元素
   * 提前引入、canvas动态加入
