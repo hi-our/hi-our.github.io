@@ -2,25 +2,51 @@
 title: 图片裁剪、模糊、保存、分享的技巧
 ---
 
+> 本文所讲内容主要基于微信原生小程序和Taro多端解决方案。如果使用Taro语法，那在微信原生小程序中写法也类似。
+
+
+## 选择图片
+
+```js
+Taro.chooseImage({
+  count: 1, // 选择数量
+  sourceType: ['album', 'camera'], // 选择图片的来源
+  sizeType: ['original', 'compressed'] // 所选的图片的尺寸
+}).then(res => {
+  this.setState({
+    originSrc: res.tempFilePaths[0]
+  });
+}).catch(error => {
+  console.log('error :', error);
+})
+```
+
+在安卓手机上压缩效果不好，使用原图，然后图片裁剪时，再用canvas实现图片压缩的目的的效果更好。
+
+
+也就是说，`sizeType`设置为`original`，在使用基于Canvas实现的图片裁剪来获取特定宽高的图片。
+
+
+web端，借助canvas
+
 ### 裁剪图片
 
 在“我要戴口罩”小程序中的另一个痛点就是如果上传一个长方形图片，会被强行变成正方形。我就想如何裁剪出正方形图片呢，此时在 npmjs 仓库中发现了`taro-cropper`这个强大的图片裁剪插件（也可以在 Taro [物料市场](https://taro-ext.jd.com)找到）。
 
-* 图片选择
-  * 微信小程序：安卓手机上压缩效果不好，使用原图，然后图片裁剪时，再用canvas实现图片压缩的目的的效果更好
-* 图片裁剪
+
+
   * 原生小程序侧：`wx-plugin/image-cropper`，功能强大，但使用起来较麻烦
   * web端：react-cropper，下载量挺大，感觉应该好用
   * Taro：使用taro-cropper
     * npm包  存在tabBar时，取消、完成这两个按钮还是贴底，而不是贴着tabBar（安卓手机
     * 我自己的给做了相应的改进，并准备给taro-cropper提pr，taro 物料市场里面找到的这个插件
     * 为何我把代码clone下来呢，因为我在跟Taro的next开发，也将对这个插件进行相应的改动
-* 图片模糊的问题
-  * 选择图片和导出图片要以2倍到3倍，比如显示为300x300效果的，可以导出为600x600或900x900，此时就得将canvas隐藏并设置多倍的宽高，而真正外显的是可以缩放显示的Image元素
-* 图片压缩的方式
-  * 小程序侧
-    * `wx.compressImage()`对ios效果明显，对安卓效果不大
-    * 借住canvas
-  * web端，借助canvas
-* 分享给朋友
+
+
+## 图片模糊的问题
+选择图片和导出图片要以2倍到3倍，比如显示为300x300效果的，可以导出为600x600或900x900，此时就得将canvas隐藏并设置多倍的宽高，而真正外显的是可以缩放显示的Image元素
+
+## 分享给朋友
   * 按钮方式，图片长按的方式
+  * 在xxxx方法里面设置
+  * 在qq小程序中支持分享某一个图片
