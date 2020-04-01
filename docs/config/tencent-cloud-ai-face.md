@@ -3,8 +3,8 @@ title: 项目搭建-腾讯云环境配置及特色人工功能介绍
 ---
 
 ## 更多人工智能的介绍，以及sdk的使用
-配图
 
+![](https://n1image.hjfile.cn/res7/2020/03/30/31bfe7a9d5019902cf28ae98bea5085c.png)
 腾讯云上除了有基本的域名、云服务器、云数据库以外，还有非常多的人工智能服务，这些服务都是有免费额度的，比如我所使用的人脸识别每个月就有10000次调用额度，还支持按量付费。关键是，这些功能都可以用 `tencentcloud-sdk-nodejs` 来直接调用。
 
 在 [tencentcloud-sdk-nodejs
@@ -17,6 +17,9 @@ title: 项目搭建-腾讯云环境配置及特色人工功能介绍
 * 将安全凭证放在`config.js`文件中
 * 在主要功能里面调用安全凭证，并按照 `tencentcloud-sdk-nodejs
 ` 给出的示例代码来编写功能
+
+![](https://n1image.hjfile.cn/res7/2020/03/30/17dd43c2d088bd79fafd159191f8266e.png)
+
 
 ### 配置安全证书
 将关键性配置抽离出来，在`.gitignore`将该文件忽略
@@ -32,6 +35,7 @@ module.exports = {
 ### 人脸五官分析
 
 将人脸五官分析的主要源码给简单分析一下
+> 对请求图片进行五官定位（也称人脸关键点定位），计算构成人脸轮廓的 90 个点，包括眉毛（左右各 8 点）、眼睛（左右各 8 点）、鼻子（13 点）、嘴巴（22 点）、脸型轮廓（21 点）、眼珠[或瞳孔]（2点）。
 
 ```js
 // cloud/functions/analyze-face/index.js
@@ -134,6 +138,10 @@ exports.main = async (event) => {
 
 ### 腾讯云五官识别
 
+体验网址：https://ai.qq.com/product/face.shtml#shape
+
+![](https://n1image.hjfile.cn/res7/2020/03/30/471e65f3ce53f97cd62ca6dea599a626.png)
+
 其实，启发我做这个小程序的是这两个文章，《[「圣诞特辑」纯前端实现人脸识别自动佩戴圣诞帽](https://juejin.im/post/5e02b73fe51d455807699b1f "「圣诞特辑」纯前端实现人脸识别自动佩戴圣诞帽")》和《[我要戴口罩 – 为微信、微博等社交网络头像戴口罩](https://www.appinn.com/woyaodaikouzhao-wechat-miniapp/ "我要戴口罩 – 为微信、微博等社交网络头像戴口罩")》。
 
 因为新冠病毒疫情蔓延，而戴口罩就是一个必备的预防措施啦。那怎样才能创新呢，我在使用“我要戴口罩”小程序过程中发现，口罩的位置是手动移动的，我就想如何自动戴过去呢，正好先前看到的“自动识别戴圣诞帽”，那我来一个戴口罩就好了。
@@ -150,6 +158,9 @@ exports.main = async (event) => {
 
 ### 人脸识别
 
+体验网址：https://ai.qq.com/product/face.shtml#detect
+
+![](https://n1image.hjfile.cn/res7/2020/03/30/eb73939375831ee4100d9d7e0c314dc6.png)
 > 检测给定图片中的人脸（Face）的位置、相应的面部属性和人脸质量信息，位置包括 (x，y，w，h)，面部属性包括性别（gender）、年龄（age）、表情（expression）、魅力（beauty）、眼镜（glass）、发型（hair）、口罩（mask）和姿态 (pitch，roll，yaw)，人脸质量信息包括整体质量分（score）、模糊分（sharpness）、光照分（brightness）和五官遮挡分（completeness）。
 
 简单来说就是识别出人脸主要位置，以及给出相应的测评分数。
@@ -159,7 +170,6 @@ exports.main = async (event) => {
 ### 更多特色功能及对应链接
 
 
-* `人脸识别` + `魅力值识别` https://ai.qq.com/product/face.shtml#detect
 * `人像变换`，包含年龄、性别 https://cloud.tencent.com/product/ft
 * `人脸美妆`，比`智能美颜`更容易一些 https://ai.qq.com/product/facemakeup.shtml
 * `滤镜`效果很不错 https://ai.qq.com/product/imgfilter.shtml
