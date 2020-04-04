@@ -1,14 +1,14 @@
 ---
-title: 小程序与Web端的深色、浅色模式适配技巧
+title: 深色模式在Web端的适配技巧，附带小程序侧的思考
 ---
 
 最近，深色模式与浅色模式相当火，微信 App 增加了深色模式后，各大 App 都在跟进中。而我早在 19 年 8 月底就开始做深色模式的页面了。当时是 CCtalk 的视频播放页面。
 
-![图片](https://n1image.hjfile.cn/res7/2020/04/04/784c03e42122586c3552b259368c1aa3.png)
+![](https://n1image.hjfile.cn/res7/2020/04/04/784c03e42122586c3552b259368c1aa3.png)
 
 当时首要问题就是想，深色、浅色模式在前端中的表现是什么呢？
 
-## 色值与情感色彩
+## 色值
 
 在《[紧跟潮流学设计：深色模式设计的 8 个小技巧](https://36kr.com/p/5231320)》中详细阐述了颜色设置上的技巧。
 
@@ -152,7 +152,35 @@ $button-color=#ff3271
 也就是说，IE11 不支持。当然也有简单的 hack 的方式，但其实也挺麻烦的。就目前国内 Windows 7 系统占有比例还这么高的情况下，使用 CSS 变量的成本还是挺高的。
 
 使用 CSS 变量的网站为苹果官网。
-![](https://n1image.hjfile.cn/res7/2020/04/04/9fe803a21031baf6493cc70ee8797309.png)
+![](https://n1image.hjfile.cn/res7/2020/04/04/9fe803a21031baf6493cc70ee8797309.png)，其方案包含：
+
+- `.theme-dark`标注深色模式
+- CSS 变量快速定义全局样式和模块样式
+
+### 使用媒体查询 `@media(prefers-color-scheme: dark)`
+
+在《[H5 适配暗黑主题（DarkMode）全部解法](https://juejin.im/post/5dfb178f6fb9a0165f48fd18)》中简明扼要地讲解了使用媒体查询来完成适配深色模式的方案。
+
+这里摘一点内容过来，
+
+```css
+body {
+  background: #f2f2f2;
+  color: #333;
+}
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #222;
+    color: #eee;
+  }
+}
+```
+
+这个方案在我们日常看的微信公众号文章已经得到了应用，其主要分这几个方面：
+
+1. 位于 body 上的 CSS 变量声明全局样式
+2. 使用`@media(prefers-color-scheme: dark)`来设置深色模式
+3. 在 APP 的 `WebView` 中，使用`window.matchMedia("(prefers-color-scheme: dark)").matches`来判断设备启动了深色模式后，设置导航栏颜色`setNavigationBarColor`。
 
 ## 自动取色技巧
 
@@ -226,100 +254,161 @@ $button-color=#ff3271
 - MDN-[filter](https://developer.mozilla.org/zh-CN/docs/Web/CSS/filter)
 - [CSS3 filter(滤镜)属性及小程序 高斯模糊和 Web 的使用](https://blog.csdn.net/Ruffaim/article/details/84430792)中提及，CSS3 滤镜同样在小程序中也适用。
 
----
+## `.theme-dark`在 React CSS Module 中如何传递
 
-# 草稿中
+在 React 的项目中启动了 CSS Module，每个组件内的 `className` 都变得独一无二了。我在尝试中有了以下几个传递的方案。
 
-而我的目标是当用户选择头像图片后，这个小程序的色彩跟着头像图片的主要色彩来变化
+- 设置 `:global` 来设置样式，但需要配合 `BEM` 命名规范，适合通用组件
+- 通过 `props` 和 `context` 来传递，适合模块组件
+- 通过 CSS 变量，因为不兼容 IE11，只能暂时放弃。
 
-提供使用 canvas 来获取主要色彩和云函数获取主要色彩的方案
+## 深色模式在 CCtalk 的实际应用
 
-在小程序上具体布局方法
+在实际应用中，我做了多端适配。其包含了在智能手机、平板电脑、笔记本电脑，在 CCtalk 还包含了位于笔记本电脑上的 PC 客户端上的 UI 适配。
 
-主题色
-苹果官方
-adobe 网站
-cctalk 网站？
-深色模式颜色搭配？
-8 个技巧
-配色方案网站 https://mp.weixin.qq.com/s/iuavg_w3uhcjDov4tL-B9Q
+**智能手机：全屏深色模式**
 
-我想写的是响应式设计对应的降级方案自适应布局，以及暗黑模式的实现。
+![](https://n1image.hjfile.cn/res7/2020/04/04/784c03e42122586c3552b259368c1aa3.png)
 
-## 变量如何传递
+**笔记本电脑：上深下浅**
 
-react props,context
-css 变量传递
+![](https://n1image.hjfile.cn/res7/2020/04/04/6ac839a962c924e1d877d2b5305c0728.png)
 
-### 传递技巧
+**PC 客户端：全屏浅色模式**
+![](https://n1image.hjfile.cn/res7/2020/04/04/db170b0cd7ddc8a400558d0014ea311f.png)
 
-### 巧妙写法
+我想到了如下两个维度：
 
-取色模式
-canvas 取色
-七牛云取色
-腾讯云取色获取图片主色调
-坑：https 站点访问 http 的图片地址的限制
+- 模式：触屏 mobile（`.ui-mode-mobile`）、大屏 pc（`.ui-theme-pc`）
+- 主题色分布：全屏深色模式、全屏浅色模式、上深下浅（与各大视频网站播放页类似）
 
-高瑟模糊
-除了利用提取图片的主要颜色以外，我们还可以借助高斯模糊来进行带有情感类色彩的颜色模式。
-比如下图中，将图片高斯模糊后作为背景（`.bg`），上面再放上一层遮罩（`.mask`）。
-
-小程序里面要完成深色模式需要关注
-
-- 顶部 statusBar 颜色
-- 底部 tabBar 颜色
-- 下拉加载的颜色
-- 触底上拉的颜色
-- 自定义 statusBar 的投入色？
-
-### 自适应布局，增加暗黑模式效果
-
-我想写的是响应式设计对应的降级方案自适应布局，以及暗黑模式的实现。
-
-模式设定
-笔记本电脑模式
-iPad pro 模式
-iPad mini
-纯手机模式
-
-iPad 下横竖屏监听，想办法只在大于 1024 下才开启？
-
-宽度设定
-1040-pc 模式下，两侧有留白
-768-mobile 下，两侧本身带有留白
-
-主题色设定
-黑白
-纯白
-纯黑
-
-参考文章
-
-- 移动端开发的屏幕、图像、字体与布局的兼容适配 https://www.cnblogs.com/coco1s/p/11463599.html
-- 紧跟潮流学设计：深色模式设计的 8 个小技巧 https://36kr.com/p/5231320
-
-判断条件
-
-- 响应式布局
-- 自适应布局
-- 完整版本
-  - 自适应布局
-  - js 断点
-  - 扩展大屏显示
-
-模式：触屏(mobile)、大屏(pc)
-主题色：暗黑色、浅白、上黑下白（视频播放模式）
-操作方式：touch、click
-课程模块，从 touch 左右滑动改为局部滚动
-
-**横屏宽度大于 1040 时，为 PC 模式，其余为 mobile**
+而我在考虑的时候，将主要适配罗列了一下
 
 | 设备                  | 网页宽高  |        模式         |         主题色          |
 | :-------------------- | :-------: | :-----------------: | :---------------------: |
-| 手机 iPhone11 pro max |  414x896  |       mobile        |          暗黑           |
-| iPad 7.9 寸           | 1024x768  |       mobile        |          暗黑           |
-| iPad Pro 11 寸        | 1194x834  | 横屏 pc 竖屏 mobile | 横屏-上黑下白 竖屏-暗黑 |
-| iPad Pro 12.9 寸      | 1366x1024 | 横屏 pc 竖屏 mobile | 横屏-上黑下白 竖屏-暗黑 |
-| pc 客户端             | 1366x1024 |       横屏 pc       |          浅白           |
-| 笔记本                | 1280x800  |         pc          |        上黑下白         |
+| 手机 iPhone11 pro max |  414x896  |       mobile        |          深色           |
+| iPad 7.9 寸           | 1024x768  |       mobile        |          深色           |
+| iPad Pro 11 寸        | 1194x834  | 横屏 pc 竖屏 mobile | 横屏-上深下浅 竖屏-深色 |
+| iPad Pro 12.9 寸      | 1366x1024 | 横屏 pc 竖屏 mobile | 横屏-上深下浅 竖屏-深色 |
+| pc 客户端             | 1070x650  |       横屏 pc       |          浅色           |
+| 笔记本                | 1280x800  |         pc          |        上深下浅         |
+
+如果来做到区分 mobile 和 pc 呢，
+
+1. 不支持 `onorientationchange` 横竖屏切换的，就认定为 pc，并且当浏览器拖动小了，支持左右滚动
+2. 进入页面时，竖屏时以`window.innerWidth, window.innerHeight`中小的那个来判断，横屏中以`window.innerWidth, window.innerHeight`大的来判断，当宽度大于 `1040px` 时认为是`pc`，宽度小于 1040 时，认定为`mobile`。
+3. 横竖屏切换时，重复第 2 步的判断
+
+> `window.innerWidth, window.innerHeight`在安卓和 ios 上的横竖屏切换上有不一致的地方，所以以最大值或最小值来做更准确。
+> `1040px`的宽度设定的依据为，恰好在 1024~1080 之间，又能兼顾 PC 客户端`1070px`的宽度（两侧有留白）。
+
+```js
+import React from 'react'
+
+const mqlMedia = window.matchMedia('(orientation: portrait)')
+
+function onMatchMediaChange(mql = window.matchMedia('(orientation: portrait)')) {
+  if (mql.matches) {
+    //竖屏
+    // console.log('此时竖屏')
+    return 'portrait'
+  } else {
+    //横屏
+    // console.log('此时横屏')
+    return 'horizontal'
+  }
+
+}
+// 输出当前屏幕模式
+const getUiMode = (uiMode = '', mql) => {
+  if (uiMode) return uiMode
+
+  if (!('onorientationchange' in window)) return 'pc'
+
+  let status = onMatchMediaChange(mql)
+  let width = status === 'portrait' ? Math.min(window.innerWidth, window.innerHeight) : Math.max(window.innerWidth, window.innerHeight)
+
+  if (width > 1040) return 'pc'
+
+  return 'mobile'
+
+}
+
+const getIsPcMode = (uiMode) => uiMode === 'pc'
+
+/**
+ * rem适配, 适用于移动端适配
+ * @export
+ * @param {*} Cmp
+ * @returns
+ */
+export function withUiMode(Cmp, options = {}) {
+  return class WithUIRem extends React.Component {
+    constructor(props) {
+      super(props)
+      let uiMode = getUiMode()
+      let isPCMode = getIsPcMode(uiMode)
+
+      this.state = {
+        uiMode: uiMode,
+        isPCMode: isPCMode,
+      }
+    }
+
+    componentDidMount() {
+      mqlMedia.addListener(this.changeUiMode)
+    }
+
+    componentWillUnmount() {
+      mqlMedia.removeListener(this.changeUiMode)
+    }
+
+    changeUiMode = (mql) => {
+      let newUiMode = getUiMode('', mql)
+      if (newUiMode !== this.state.uiMode) {
+        this.setState({
+          isPCMode: getIsPcMode(newUiMode),
+          uiMode: newUiMode
+        })
+
+      }
+    }
+
+    render() {
+      return <Cmp {...this.state} {...this.props} />
+    }
+  }
+}
+
+
+export default (options) => {
+  return (Cmp) =>  withUiMode(Cmp, options)
+}
+```
+
+## 深色模式在“CCtalk 课程”小程序中的实际运用
+
+抖音 APP 的主题色为暗黑色，“CCtalk 课堂”也使用了类似的暗黑色。
+
+> 安卓手机上搜“CCtalk 课堂”小程序才能搜到。
+
+```js
+class Self extends Taro.Component {
+  config = {
+    navigationBarBackgroundColor: '#0E1226',
+    navigationBarTextStyle: 'white',
+    navigationBarTitleText: '我的课程',
+    backgroundColorTop: '#0E1226',
+    backgroundColorBottom: '#0E1226',
+    backgroundTextStyle: 'light'
+  }
+}
+```
+
+- `navigationBarBackgroundColor`，导航栏背景颜色
+- `navigationBarTextStyle`，导航栏标题颜色，仅支持 black/white，同时影响：标题颜色、右胶囊颜色、左返回箭头颜色
+- `backgroundColorTop`，顶部窗口的背景色，仅 iOS 支持
+- `backgroundColorBottom`，同`backgroundColor`底部窗口的背景色，仅 iOS 支持
+- `backgroundTextStyle`，下拉 loading 的样式，仅支持 dark/light
+
+并且，在《[CSS3 filter(滤镜)属性及小程序 高斯模糊和 Web 的使用](https://blog.csdn.net/Ruffaim/article/details/84430792)》中提及，CSS3 滤镜同样在小程序中也适用
