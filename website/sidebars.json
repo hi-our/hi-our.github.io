@@ -24,7 +24,8 @@
       "tencent-cloud/picture-recognition-storage",
       "tencent-cloud/avatar-poster-share",
       "tencent-cloud/login-minapp-web",
-      "tencent-cloud/self-page-list"
+      "tencent-cloud/self-page-list",
+      "tencent-cloud/tencent-image-services"
     ],
     "Taro实战": [
       "taro-next/taro-next-vs-core"
