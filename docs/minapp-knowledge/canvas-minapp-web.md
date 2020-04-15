@@ -82,6 +82,7 @@ const createCanvasContext = (canvasId, componentInstance) => {
 
 
 ## canvas 元素绘制
+
 * 线条、圆形、矩形，按照API写即可，差异不大
 * 画图片 `drawImage`
   * 小程序侧，本地路径
@@ -89,6 +90,7 @@ const createCanvasContext = (canvasId, componentInstance) => {
   * web端，img元素
     * onload引入后，无需关心图片是base64、本地路径
 ### 常用API
+
 * save() 保留当前状态
 * rotate() 以原点为中心顺时针旋转当前坐标轴。多次调用旋转的角度会叠加。原点可以用 translate 方法修改。
 * restore()  恢复之前保存的绘图上下文。
@@ -102,6 +104,8 @@ const createCanvasContext = (canvasId, componentInstance) => {
   * Taro上
     * 小程序侧，使用原生
     * web侧，draw时将前面状态以此执行 `packages/taro-h5/src/api/canvas/createCanvasContext.js`
+
+
 ## 画布导出图片
 
 * web端 toDataURL()，生成带有图片质量的指定格式的base64数据
