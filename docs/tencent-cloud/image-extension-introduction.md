@@ -36,22 +36,24 @@ title: 多种云开发扩展能力，让人脸识别飞起来
 ![](https://n1image.hjfile.cn/res7/2020/04/12/56ed9b6e34415129deefc3ba6463c865.jpg)
 
 ```js
-const opts = {
-  rules: [
-    {
-      // 处理结果的文件路径，如以’/’开头，则存入指定文件夹中，否则，存入原图文件存储的同目录
-      fileid: facePath1 + cloudPath,
-      rule: "imageMogr2/thumbnail/!600x600r/scrop/600x600" // 处理样式参数，与下载时处理图像在url拼接的参数一致
-    },
-  ]
+// 获取图片临时链接
+const getImageUrl = async (fileID) => {
+  const { fileList } = await tcb.getTempFileURL({
+    fileList: [fileID]
+  })
+  return fileList[0].tempFileURL
 }
+```
 
-await tcb.invokeExtension("CloudInfinite", {
-  action: "ImageProcess",
-  cloudPath: cloudPath, // 存储图像的绝对路径，与tcb.uploadFile中一致
-  // fileContent, // 该字段可选，文件内容：Uint8Array|Buffer。有值，表示上传时处理图像；为空，则处理已经上传的图像
-  operations: opts
-});
+```js
+let originImageUrl = await getImageUrl(fileID)
+
+let rule = `imageMogr2/thumbnail/!${width}x${height}r|imageMogr2/scrop/${width}x${height}/`
+
+let cutImageUrl = originImageUrl + '?' + rule
+
+return cutImageUrl
+    
 ```
 
 图片缩放及裁剪的核心就是`rule`，这里我执行了两项操作
@@ -67,16 +69,6 @@ await tcb.invokeExtension("CloudInfinite", {
 这里，我通过 fileID 获取图片临时链接，以提供给人脸识别使用。
 
 ![](https://n1other.hjfile.cn/res7/2020/04/12/ae020750c69cc3c4938542ea98d64e48.PNG)
-
-```js
-// 获取图片链接
-const getImageUrl = async (fileID) => {
-  const { fileList } = await tcb.getTempFileURL({
-    fileList: [fileID]
-  })
-  return fileList[0].tempFileURL
-}
-```
 
 
 ```js
@@ -184,7 +176,7 @@ async function demo() {
 }
 ```
 
-完整的使用示例，请参照 https://github.com/shenghanqin/quickly-mask/blob/master/cloud/functions/image-safe-check/index.js
+完整的使用示例，请参照 https://github.com/hi-our/hi-face/blob/master/cloud/functions/image-safe-check/index.js
 
 ## 多图裁剪
 > 需要补充多图裁剪的功能
@@ -254,7 +246,7 @@ exports.main = async (event) => {
 }
 ```
 
-完整的使用示例，请参照 https://github.com/shenghanqin/quickly-mask/blob/master/cloud/functions/get-main-color/index.js
+完整的使用示例，请参照 https://github.com/hi-our/hi-face/blob/master/cloud/functions/get-main-color/index.js
 
 ## 图像标签
 
@@ -284,7 +276,7 @@ const list = tmpLabels.map(item => ({
 }))
 ```
 
-完整的使用示例，请参照 https://github.com/shenghanqin/quickly-mask/blob/master/cloud/functions/get-main-color/index.js
+完整的使用示例，请参照 https://github.com/hi-our/hi-face/blob/master/cloud/functions/get-main-color/index.js
 
 
 
@@ -294,7 +286,7 @@ const list = tmpLabels.map(item => ({
 我是 **盛瀚钦**，沪江 CCtalk 前端开发工程师，Taro 框架的 issue 维护志愿者，腾讯云云开发布道师，主要侧重于前端 UI 编写和团队文档建设
 
 源码地址：
-[https://github.com/shenghanqin/quickly-mask](https://github.com/shenghanqin/quickly-mask "https://github.com/shenghanqin/quickly-mask")
+[https://github.com/hi-our/hi-face](https://github.com/hi-our/hi-face "https://github.com/hi-our/hi-face")
 
 
 ## 文章标题
