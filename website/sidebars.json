@@ -3,33 +3,6 @@
     "介绍": [
       "introduction",
       "book-plan"
-    ],
-    "配置": [
-      "config/taro-cloud-function",
-      "config/tencent-cloud-ai-face"
-    ],
-    "小程序知识": [
-      "minapp-knowledge/canvas-image-cropper-share",
-      "minapp-knowledge/canvas-minapp-web",
-      "minapp-knowledge/minapp-to-dark-mode"
-    ],
-    "原生小程序实战": [
-      "minapp-native/face-recognition",
-      "minapp-native/sticker",
-      "minapp-native/wear-a-mask"
-    ],
-    "腾讯云开发实战": [
-      "tencent-cloud/picture-speed-up-1-second",
-      "tencent-cloud/tencent-minapp-to-web",
-      "tencent-cloud/image-extension-introduction",
-      "tencent-cloud/picture-recognition-storage",
-      "tencent-cloud/avatar-poster-share",
-      "tencent-cloud/login-minapp-web",
-      "tencent-cloud/self-page-list",
-      "tencent-cloud/tencent-image-services"
-    ],
-    "Taro实战": [
-      "taro-next/taro-next-vs-core"
     ]
 
     
