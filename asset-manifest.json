@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.a7012e00.chunk.css",
+    "main.css": "/static/css/main.b5f3fe6f.chunk.css",
     "main.js": "/static/js/main.a887d057.chunk.js",
     "main.js.map": "/static/js/main.a887d057.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.e8df7e14.js",
@@ -8,9 +8,9 @@
     "static/js/2.e5d2be74.chunk.js": "/static/js/2.e5d2be74.chunk.js",
     "static/js/2.e5d2be74.chunk.js.map": "/static/js/2.e5d2be74.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.6804e5e51684e51c63276ba604dfe29e.js": "/precache-manifest.6804e5e51684e51c63276ba604dfe29e.js",
+    "precache-manifest.c16138a5683ec91899542dcdcf399447.js": "/precache-manifest.c16138a5683ec91899542dcdcf399447.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/main.a7012e00.chunk.css.map": "/static/css/main.a7012e00.chunk.css.map",
+    "static/css/main.b5f3fe6f.chunk.css.map": "/static/css/main.b5f3fe6f.chunk.css.map",
     "static/js/2.e5d2be74.chunk.js.LICENSE.txt": "/static/js/2.e5d2be74.chunk.js.LICENSE.txt",
     "static/media/hiface-logo.png": "/static/media/hiface-logo.88a3a556.png",
     "static/media/hiface-qrcode.jpg": "/static/media/hiface-qrcode.f6cd32f6.jpg",
@@ -19,7 +19,7 @@
   "entrypoints": [
     "static/js/runtime-main.e8df7e14.js",
     "static/js/2.e5d2be74.chunk.js",
-    "static/css/main.a7012e00.chunk.css",
+    "static/css/main.b5f3fe6f.chunk.css",
     "static/js/main.a887d057.chunk.js"
   ]
 }
